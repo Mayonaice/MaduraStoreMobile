@@ -5,8 +5,6 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       flutter: stable
-      android_signing:
-        - keystore_reference
     scripts:
       - name: Set up local.properties
         script: |
@@ -291,6 +289,6 @@ workflows:
       - name: Build APK
         script: |
           flutter config --no-enable-web
-          flutter build apk --release --android-skip-build-dependency-validation
+          flutter build apk --release --android-skip-build-dependency-validation --debug
     artifacts:
       - build/**/outputs/apk/**/*.apk 

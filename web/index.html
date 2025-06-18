@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Aplikasi mobile untuk MaduraStore e-commerce.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="madura_store_mobile">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- CORS Configuration -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: 'unsafe-eval' 'unsafe-inline'; style-src * 'self' 'unsafe-inline'; media-src *; connect-src * 'self' http://localhost:58971 http://127.0.0.1:58971 http://penantian-001-site1.qtempurl.com blob: data: gap:;">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Madura Store Mobile</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Menambahkan Edge-specific metadata -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <script>
+    // Edge Browser detection
+    function isEdge() {
+      return navigator.userAgent.indexOf("Edge") > -1 || 
+             navigator.userAgent.indexOf("Edg") > -1;
+    }
+
+    // Set Edge-specific optimizations if needed
+    if (isEdge()) {
+      console.log("Microsoft Edge detected, applying optimizations");
+      // You can add Edge-specific settings here if needed
+    }
+    
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <script>
+    // Tambahkan handler untuk membantu mengatasi masalah 404 dengan file .ashx
+    // Solusi untuk masalah IIS 7+ Integrated Mode dengan HTTP Handler
+    window.addEventListener('load', function(ev) {
+      // Fungsi untuk membantu mengatasi 404 pada ashx
+      window.fixAshxRequests = function(url) {
+        if (url.includes('.ashx')) {
+          console.log('Menangani request .ashx:', url);
+          // Pastikan URL menggunakan struktur yang benar untuk handler ashx
+          if (!url.includes('/api/')) {
+            url = url.replace('.ashx', '');
+            url = url.replace('://', '://').replace(/\/+/g, '/');
+            if (!url.endsWith('/')) url += '/';
+            url += 'api/';
+            url = url.replace('/api/api/', '/api/') + '.ashx';
+            console.log('URL fixed to:', url);
+          }
+          return url;
+        }
+        return url;
+      };
+      
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+
+    // Add JSONP support
+    window.handleJSONPResponse = function(data) {
+      console.log("JSONP Response received:", data);
+      // This will be used by the Flutter app if we need JSONP fallback
+    };
+  </script>
+</body>
+</html>

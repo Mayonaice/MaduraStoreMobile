@@ -286,9 +286,9 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
-      - name: Build APK
+      - name: Build Debug APK
         script: |
           flutter config --no-enable-web
-          flutter build apk --release --android-skip-build-dependency-validation --debug
+          flutter build apk --debug --android-skip-build-dependency-validation
     artifacts:
       - build/**/outputs/apk/**/*.apk 

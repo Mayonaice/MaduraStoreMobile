@@ -59,6 +59,34 @@ class WebCorsClient {
     return url;
   }
   
+  /// Test connection untuk URL tertentu
+  static Future<Map<String, dynamic>> testConnection(String url) async {
+    try {
+      final response = await get(url);
+      
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        try {
+          return json.decode(response.body);
+        } catch (e) {
+          return {
+            'success': false,
+            'message': 'Error parsing response: ${e.toString()}'
+          };
+        }
+      } else {
+        return {
+          'success': false,
+          'message': 'HTTP Error: ${response.statusCode}'
+        };
+      }
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Connection error: ${e.toString()}'
+      };
+    }
+  }
+  
   /// Mengambil data dengan JSONP (JavaScript callback)
   static Future<Map<String, dynamic>> getWithJsonp(String url) async {
     // JSONP tidak didukung di mobile

@@ -12,12 +12,14 @@ workflows:
       - name: Fix gradle wrapper
         script: |
           cd android
-          rm -f gradle/wrapper/gradle-wrapper.properties
-          echo "distributionBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
-          echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
-          echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
-          echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
-          echo "distributionUrl=https\\://services.gradle.org/distributions/gradle-7.5-all.zip" >> gradle/wrapper/gradle-wrapper.properties
+          cat > gradle/wrapper/gradle-wrapper.properties << EOF
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          distributionUrl=https\\://services.gradle.org/distributions/gradle-7.5-all.zip
+          EOF
+          chmod +x gradlew
       - name: Get Flutter packages
         script: |
           flutter pub get

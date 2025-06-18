@@ -46,6 +46,28 @@ workflows:
               </domain-config>
           </network-security-config>
           EOF
+      - name: Create app icons
+        script: |
+          mkdir -p android/app/src/main/res/drawable
+          
+          cat > android/app/src/main/res/drawable/ic_launcher_placeholder.xml << 'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <shape xmlns:android="http://schemas.android.com/apk/res/android"
+              android:shape="rectangle">
+              <solid android:color="#2196F3" />
+              <corners android:radius="12dp" />
+              <padding
+                  android:bottom="8dp"
+                  android:left="8dp"
+                  android:right="8dp"
+                  android:top="8dp" />
+          </shape>
+          EOF
+          
+          mkdir -p assets/images
+          echo "Placeholder image" > assets/images/.gitkeep
+          
+          sed -i '' 's/@mipmap\/ic_launcher/@drawable\/ic_launcher_placeholder/g' android/app/src/main/AndroidManifest.xml
       - name: Fix web_cors.dart
         script: |
           cat > lib/services/web_cors.dart << 'EOF'

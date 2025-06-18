@@ -17,7 +17,7 @@ workflows:
           distributionPath=wrapper/dists
           zipStoreBase=GRADLE_USER_HOME
           zipStorePath=wrapper/dists
-          distributionUrl=https\\://services.gradle.org/distributions/gradle-7.5-all.zip
+          distributionUrl=https\\://services.gradle.org/distributions/gradle-8.4-all.zip
           EOF
           chmod +x gradlew
       - name: Fix gradle.properties
@@ -29,6 +29,6 @@ workflows:
           flutter packages pub get
       - name: Build APK
         script: |
-          flutter build apk --release
+          flutter build apk --release --android-skip-build-dependency-validation
     artifacts:
       - build/**/outputs/apk/**/*.apk 
